@@ -17,8 +17,7 @@ public class PlaneController : MonoBehaviour
 
     public Rigidbody rb; // Gravity and drag
 
-    public Transform plane;
-
+    public Transform paperPlane;
 
 
 
@@ -35,7 +34,7 @@ public class PlaneController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         // Current plane objects transform
-        plane = transform;
+        paperPlane = transform;
 
     }
 
@@ -64,7 +63,7 @@ public class PlaneController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             // Add forward force to rb to see if moving forward works
-            rb.AddForce(transform.right * thrust);
+            rb.AddForce(transform.forward * thrust);
         }
     }
 
@@ -73,19 +72,19 @@ public class PlaneController : MonoBehaviour
         // For WASD
         if (Input.GetKey(KeyCode.D))
         {
-            rb.AddTorque(transform.right * 2);
+            rb.AddTorque(transform.up * 2);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            rb.AddTorque(transform.right * -2);
+            rb.AddTorque(transform.up * -2);
         }
         if (Input.GetKey(KeyCode.W))
         {
-            rb.AddTorque(transform.up * 2);
+            rb.AddTorque(transform.right * 2);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddTorque(transform.up * -2);
+            rb.AddTorque(transform.right * -2);
         }
     }
 }
