@@ -15,6 +15,8 @@ public class PlaneController : MonoBehaviour
 
     public float thrust = 20f;
 
+    public float lift;
+
     public Rigidbody rb; // Gravity and drag
 
     public Transform paperPlane;
@@ -63,7 +65,10 @@ public class PlaneController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             // Add forward force to rb to see if moving forward works
-            rb.AddForce(transform.forward * thrust);
+            Vector3 beans = rb.centerOfMass;
+            beans.z += 0.5f;
+            Vector3 offset = transform.TransformPoint(beans);
+            rb.AddForceAtPosition(transform.forward * thrust, offset);
         }
     }
 
@@ -85,6 +90,14 @@ public class PlaneController : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
         {
             rb.AddTorque(transform.right * -2);
+        }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            rb.AddTorque(transform.forward * 0.5f);
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            rb.AddTorque(transform.forward * -0.5f);
         }
     }
 }
