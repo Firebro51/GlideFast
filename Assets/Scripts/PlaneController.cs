@@ -49,9 +49,7 @@ public class PlaneController : MonoBehaviour
 
     void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.blue);
-        Debug.DrawRay(transform.position, transform.up * 5, Color.green);
-        Debug.DrawRay(transform.position, transform.right * 5, Color.red);
+        
     }
 
 
@@ -93,11 +91,11 @@ public class PlaneController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Q))
         {
-            rb.AddTorque(transform.forward * 0.5f);
+            rb.AddTorque(transform.forward * 1f);
         }
         if (Input.GetKey(KeyCode.E))
         {
-            rb.AddTorque(transform.forward * -0.5f);
+            rb.AddTorque(transform.forward * -1f);
         }
     }
 }
