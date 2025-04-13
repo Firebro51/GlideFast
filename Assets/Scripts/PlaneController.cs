@@ -2,6 +2,7 @@ using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.InputSystem;
 
 public class PlaneController : MonoBehaviour
 {
@@ -12,17 +13,20 @@ public class PlaneController : MonoBehaviour
     // thrust - forward Speed - forward
     // Lift - Upward force - up
 
-
     public float thrust = 20f;
 
     public float lift;
+
+    public bool isThrottling;
 
     public Rigidbody rb; // Gravity and drag
 
     public Transform paperPlane;
 
 
+    // Action Map
 
+    InputActionMap actionMap;
 
     // Rotation Variables
     // Yaw, Roll, Pitch
@@ -38,18 +42,25 @@ public class PlaneController : MonoBehaviour
         // Current plane objects transform
         paperPlane = transform;
 
+        // Action Map
+        actionMap = InputSystem.actions.FindActionMap("Player");
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        HandleMovement();
+        if (isThrottling)
+        {
+            HandleMovement();
+        }
         HandleDirection();
     }
 
     void Update()
     {
-        
+        // If Throttle is pressed set true , else set false
+        isThrottling = actionMap.FindAction("Throttle").IsPressed();
     }
 
 
@@ -60,14 +71,11 @@ public class PlaneController : MonoBehaviour
 
     public void HandleMovement()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            // Add forward force to rb to see if moving forward works
-            Vector3 beans = rb.centerOfMass;
-            beans.z += 0.5f;
-            Vector3 offset = transform.TransformPoint(beans);
-            rb.AddForceAtPosition(transform.forward * thrust, offset);
-        }
+        // Add forward force to rb to see if moving forward works
+        Vector3 beans = rb.centerOfMass;
+        beans.z += 0.5f;
+        Vector3 offset = transform.TransformPoint(beans);
+        rb.AddForceAtPosition(transform.forward * thrust, offset);
     }
 
     public void HandleDirection()
