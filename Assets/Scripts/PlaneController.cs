@@ -28,6 +28,10 @@ public class PlaneController : MonoBehaviour
 
     InputActionMap actionMap;
 
+    // Actions
+
+    InputAction throttleAction;
+
     // Rotation Variables
     // Yaw, Roll, Pitch
     
@@ -45,6 +49,10 @@ public class PlaneController : MonoBehaviour
         // Action Map
         actionMap = InputSystem.actions.FindActionMap("Player");
 
+        // Actions
+        throttleAction = actionMap.FindAction("Throttle");
+
+
     }
 
     // Update is called once per frame
@@ -60,7 +68,7 @@ public class PlaneController : MonoBehaviour
     void Update()
     {
         // If Throttle is pressed set true , else set false
-        isThrottling = actionMap.FindAction("Throttle").IsPressed();
+        isThrottling = throttleAction.IsPressed();
     }
 
 
@@ -68,7 +76,7 @@ public class PlaneController : MonoBehaviour
 
     // Have set starting speed in air
 
-
+    
     public void HandleMovement()
     {
         // Add forward force to rb to see if moving forward works
