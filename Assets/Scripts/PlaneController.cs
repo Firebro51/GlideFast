@@ -46,9 +46,9 @@ public class PlaneController : MonoBehaviour
     // Rotation Variables
     // Yaw, Roll, Pitch
     
-    public float roll = 0.5f; // Roll - Forward axis  - x axis
-    public float yaw = 1f; // Yaw - Verticle axis  - y axis
-    public float pitch = 1f; // Pitch - Frontflip/Backflip - z axis
+    public float roll = 0.25f; // Roll - Forward axis  - x axis
+    public float yaw = 0.5f; // Yaw - Verticle axis  - y axis
+    public float pitch = 0.5f; // Pitch - Frontflip/Backflip - z axis
 
     void Start()
     {
