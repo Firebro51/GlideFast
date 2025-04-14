@@ -19,10 +19,15 @@ public class PlaneController : MonoBehaviour
 
     public bool isThrottling;
 
+    public bool isPitch;
+
+    public bool isYaw;
+    
+    public bool isRoll;
+
     public Rigidbody rb; // Gravity and drag
 
     public Transform paperPlane;
-
 
     // Action Map
 
@@ -32,12 +37,18 @@ public class PlaneController : MonoBehaviour
 
     InputAction throttleAction;
 
+    InputAction pitchAction;
+
+    InputAction yawAction;
+
+    InputAction rollAction;
+
     // Rotation Variables
     // Yaw, Roll, Pitch
     
-    public Vector3 roll = new Vector3(10f, 0, 0); // Roll - Forward axis  - x axis
-    public Vector3 yaw = new Vector3(0, 10f, 0); // Yaw - Verticle axis  - y axis
-    public Vector3 pitch = new Vector3(0, 0, 10f); // Pitch - Frontflip/Backflip - z axis
+    public float roll = 0.5f; // Roll - Forward axis  - x axis
+    public float yaw = 1f; // Yaw - Verticle axis  - y axis
+    public float pitch = 1f; // Pitch - Frontflip/Backflip - z axis
 
     void Start()
     {
@@ -52,6 +63,11 @@ public class PlaneController : MonoBehaviour
         // Actions
         throttleAction = actionMap.FindAction("Throttle");
 
+        pitchAction = actionMap.FindAction("Pitch");
+
+        yawAction = actionMap.FindAction("Yaw");
+
+        rollAction = actionMap.FindAction("Roll");
 
     }
 
@@ -69,6 +85,13 @@ public class PlaneController : MonoBehaviour
     {
         // If Throttle is pressed set true , else set false
         isThrottling = throttleAction.IsPressed();
+
+        isPitch = pitchAction.IsPressed();
+
+        isYaw = yawAction.IsPressed();
+
+        isRoll = rollAction.IsPressed();
+
     }
 
 
@@ -88,23 +111,42 @@ public class PlaneController : MonoBehaviour
 
     public void HandleDirection()
     {
+        if (isRoll)
+        {
+            Vector2 rollInput = rollAction.ReadValue<Vector2>();
+            rb.AddTorque(transform.forward * -rollInput.x * roll);
+            Debug.Log(rollInput);
+        }
+        if (isPitch)
+        {
+            Vector2 pitchInput = pitchAction.ReadValue<Vector2>();
+            rb.AddTorque(transform.right * pitchInput.y * pitch);
+            Debug.Log(pitchInput);
+        }
+        if (isYaw)
+        {
+            Vector2 yawInput = yawAction.ReadValue<Vector2>();
+            rb.AddTorque(transform.up * yawInput.x * yaw);
+            Debug.Log(yawInput);
+        }
+
         // For WASD
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.AddTorque(transform.up * 2);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.AddTorque(transform.up * -2);
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.AddTorque(transform.right * 2);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.AddTorque(transform.right * -2);
-        }
+        // if (Input.GetKey(KeyCode.D))
+        // {
+        //     rb.AddTorque(transform.up * 2);
+        // }
+        // if (Input.GetKey(KeyCode.A))
+        // {
+        //     rb.AddTorque(transform.up * -2);
+        // }
+        // if (Input.GetKey(KeyCode.W))
+        // {
+        //     rb.AddTorque(transform.right * 2);
+        // }
+        // if (Input.GetKey(KeyCode.S))
+        // {
+        //     rb.AddTorque(transform.right * -2);
+        // }
         if (Input.GetKey(KeyCode.Q))
         {
             rb.AddTorque(transform.forward * 1f);
