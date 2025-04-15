@@ -4672,8 +4672,8 @@ Rigidbody:
   m_GameObject: {fileID: 556930295}
   serializedVersion: 4
   m_Mass: 2
-  m_Drag: 2
-  m_AngularDrag: 1
+  m_Drag: 1
+  m_AngularDrag: 2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -4709,11 +4709,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 250
   lift: 0
+  isThrottling: 0
+  isPitch: 0
+  isYaw: 0
+  isRoll: 0
   rb: {fileID: 556930296}
   paperPlane: {fileID: 556930297}
-  roll: {x: 10, y: 0, z: 0}
-  yaw: {x: 0, y: 10, z: 0}
-  pitch: {x: 0, y: 0, z: 10}
 --- !u!64 &556930301
 MeshCollider:
   m_ObjectHideFlags: 0
