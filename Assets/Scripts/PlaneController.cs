@@ -181,7 +181,7 @@ public class PlaneController : MonoBehaviour
     {
         if (isSpecialAttackSpin)
         {
-            rb.AddTorque(transform.forward * roll * 20);
+            rb.AddTorque(transform.forward * roll * 10);
         }
     }
 }
