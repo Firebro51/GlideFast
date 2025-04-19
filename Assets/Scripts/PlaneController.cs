@@ -13,7 +13,11 @@ public class PlaneController : MonoBehaviour
     // thrust - forward Speed - forward
     // Lift - Upward force - up
 
-    public float thrust = 20f;
+
+    // Starts at 0 and builds up to 400 speed
+    public float thrust = 0f;
+
+    private float MaxSpeed = 400f;
 
     public float lift;
 
@@ -24,6 +28,8 @@ public class PlaneController : MonoBehaviour
     public bool isYaw;
     
     public bool isRoll;
+
+    public bool isSpecialAttackSpin;
 
     public Rigidbody rb; // Gravity and drag
 
@@ -42,6 +48,8 @@ public class PlaneController : MonoBehaviour
     InputAction yawAction;
 
     InputAction rollAction;
+
+    InputAction SpecialAttackSpinAction;
 
     // Rotation Variables
     // Yaw, Roll, Pitch
@@ -69,6 +77,8 @@ public class PlaneController : MonoBehaviour
 
         rollAction = actionMap.FindAction("Roll");
 
+        SpecialAttackSpinAction = actionMap.FindAction("Attack");
+
     }
 
     // Update is called once per frame
@@ -76,8 +86,16 @@ public class PlaneController : MonoBehaviour
     {
         if (isThrottling)
         {
+            thrust = (thrust < MaxSpeed) ? thrust += 4f: MaxSpeed;
             HandleMovement();
+            Debug.Log(thrust);
         }
+        else
+        {
+            thrust = (thrust > 1) ? thrust -= 10f: 0;
+            Debug.Log(thrust);
+        }
+        HandleAttacking();
         HandleDirection();
     }
 
@@ -91,6 +109,8 @@ public class PlaneController : MonoBehaviour
         isYaw = yawAction.IsPressed();
 
         isRoll = rollAction.IsPressed();
+
+        isSpecialAttackSpin = SpecialAttackSpinAction.IsPressed();
 
     }
 
@@ -131,22 +151,22 @@ public class PlaneController : MonoBehaviour
         }
 
         // For WASD
-        // if (Input.GetKey(KeyCode.D))
-        // {
-        //     rb.AddTorque(transform.up * 2);
-        // }
-        // if (Input.GetKey(KeyCode.A))
-        // {
-        //     rb.AddTorque(transform.up * -2);
-        // }
-        // if (Input.GetKey(KeyCode.W))
-        // {
-        //     rb.AddTorque(transform.right * 2);
-        // }
-        // if (Input.GetKey(KeyCode.S))
-        // {
-        //     rb.AddTorque(transform.right * -2);
-        // }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rb.AddTorque(transform.up * 2);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            rb.AddTorque(transform.up * -2);
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            rb.AddTorque(transform.right * 2);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            rb.AddTorque(transform.right * -2);
+        }
         if (Input.GetKey(KeyCode.Q))
         {
             rb.AddTorque(transform.forward * 1f);
@@ -154,6 +174,14 @@ public class PlaneController : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             rb.AddTorque(transform.forward * -1f);
+        }
+    }
+
+    public void HandleAttacking()
+    {
+        if (isSpecialAttackSpin)
+        {
+            rb.AddTorque(transform.forward * roll * 20);
         }
     }
 }
